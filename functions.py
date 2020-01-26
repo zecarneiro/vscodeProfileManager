@@ -3,6 +3,9 @@ import subprocess
 import json
 import datetime
 from sys import platform
+from typing import TypeVar, Generic
+
+T = TypeVar('T')
 
 class Functions:
     """
@@ -10,51 +13,86 @@ class Functions:
     """
     def __init__(self, nameFileLog):
         self.logFile = nameFileLog
-        self.homePath = None
-        #self.set_home_path()
+        self.homePath = ''
+        self.set_home_path()
 
     def set_home_path(self):
         if self.is_system_operating(0) == True:
             self.homePath = os.path.expanduser("~")
         elif self.is_system_operating(2) == True:
-            self.jsonFile = "c:\\"
+            self.homePath = "c:\\"
 
-    def get_home_path(self):
+    def get_home_path(self) -> str:
         return self.homePath
-    
-    """
-        Only execute command
-    """
-    def exec_command(self, command):
-        os.system(command)
 
-    """
-        Execute command and return output
-    """
+    def exec_command(self, command):
+        """Only execute command
+        
+        Arguments:
+            command {str} -- command to execute
+        """
+        os.system(command)
+    
     def exec_command_get_output(self, command):
+        """Execute command and return output
+        
+        Arguments:
+            command {str} -- command to execute
+        
+        Returns:
+            str -- output command
+        """
         process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = process.communicate()
         return output.decode("utf-8").strip("\n")
+    
 
-    """
-        Check if files exists
-    """
     def checkFileExist(self, file):
+        """Check if files exists
+        
+        Arguments:
+            file {str} -- name of full path with name
+        
+        Returns:
+            bool -- True if exist
+        """
         if isinstance(file, str):
             return os.path.isfile(file)
         else:
             return False
-
-    """
-        Check if directories exists
-    """
+    
+    
     def checkDirectoryExist(self, directory):
+        """Check if directories exists
+        
+        Arguments:
+            directory {str} -- name of directory
+        
+        Returns:
+            bool -- True if exist
+        """
         return os.path.isdir(directory)
 
-    """
-        Read JSON File
-    """
+    
+    def rename_file_dir_name(self, oldName, newName):
+        """Rename file or directory
+        
+        Arguments:
+            oldName {str} -- Old name of file/directory
+            newName {str} -- New name of file/directory
+        """
+        os.rename(oldName, newName)
+
+    
     def read_json_file(self, json_file):
+        """Read JSON File
+        
+        Arguments:
+            json_file {str} -- name of full path with name of file
+        
+        Returns:
+            object -- json data
+        """  
         json_data = {}
         try:
             stream = open(json_file, 'r')
@@ -66,10 +104,16 @@ class Functions:
             json_data = {}
         return json_data
 
-    """
-        Check SO by type
-    """
+    
     def is_system_operating(self, type):
+        """Check SO by type
+        
+        Arguments:
+            type {int} -- [description]
+        
+        Returns:
+            bool -- True if system operatin
+        """
         is_Platform = False
 
         if type == 0: # linux
@@ -78,13 +122,19 @@ class Functions:
             self.is_Platform = True if platform == "darwin" else False
         elif type == 2: # Windows...
             self.is_Platform = True if platform == 'win32' or platform == 'win64' else False
-            
         return self.is_Platform
+    
 
-    """
-        [Set Log Error]
-    """
     def set_log(self, _type, _error_log, print_error = False):
+        """Set Log Error
+        
+        Arguments:
+            _type {str} -- [description]
+            _error_log {str} -- [description]
+        
+        Keyword Arguments:
+            print_error {bool} -- [description] (default: {False})
+        """
         _type = _type + " " + str(datetime.datetime.now())
         localization_log_file = self.homePath + "/" + self.logFile + ".log"
         _msg = _type + ": " + _error_log
@@ -92,23 +142,47 @@ class Functions:
 
         if print_error == True:
             print(_msg)
-
         self.exec_command(command)
+    
 
-    """
-        Print Json Data
-    Returns:
-        [json_data] -- [data of json]
-    """
     def print_json_data(self, json_data):
+        """Print Json Data
+        
+        Arguments:
+            json_data {object} -- [description]
+        """
         print(json.dumps(json_data, indent=4, sort_keys=True))
 
-    """[Check if key exist on object]
-    Returns:
-        [type] -- [description]
-    """
+    
     def checkKey(self, object, key):
+        """Check if key exist on object
+        
+        Arguments:
+            object {object} -- object to check
+            key {str} -- key to check
+        
+        Returns:
+            [bool] -- True if exist, False if not
+        """
         if key in object.keys(): 
             return True
         else: 
             return False
+
+    
+    def get_input_keyboard(self, message, typeInput: Generic[T]) -> T:
+        """Read data from keyboard
+        
+        Arguments:
+            message {str} -- Message to print on read input
+            typeInput {Generic[T]} -- Type of data to get from input
+        
+        Returns:
+            T -- data inserted
+        """
+        while True:
+            try:
+                x = typeInput(input(message))
+                return x
+            except ValueError:
+                print("Oops!  That was no valid.  Try again...")

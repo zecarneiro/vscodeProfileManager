@@ -1,0 +1,7 @@
+{
+	"profiles": {
+		"Angular": ["Angular.ng-template", "johnpapa.Angular2"],
+		"React": ["dsznajder.es7-react-js-snippets"],
+		"Vue": ["octref.vetur"]
+	}
+}
