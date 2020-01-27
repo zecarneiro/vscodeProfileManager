@@ -36,6 +36,7 @@ class VscodeProfileManager:
                 print('Init operations for: ' + self.arrayOfMenu[selectedMenu] + ' profile...')
                 self.execute_operations(selectedMenu)
                 print('Done. Please Reload Code')
+                input("PRESS ENTER TO EXIT!")
         except Exception as e:
             self.set_log('VSCODE PROFILER', str(e.args), True)
 
