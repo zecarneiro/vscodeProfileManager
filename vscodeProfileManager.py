@@ -1,14 +1,16 @@
+#!/usr/bin/env python3
 from functions import Functions
 import os
 
 # App Directory
 _EXTENSION_PATH_KEY = "extensionPath"
 _PROFILES_KEY = "profiles"
-_LOG_FILE = ".vscodeProfileManager"
+_LOG_FILE = "vscodeProfileManager"
 _JSON_FILE = "vscodeProfile.json"
 _PACKAGE_JSON_PREFIX = "VSCODE_PROFILE"
 _FILE_PACKAGE_JSON = "package.json"
 _FILE_ACTIVE_PROFILE = "active_profile"
+_COMMENT_JSON_KEY = "comment_vsprofile"
 
 class VscodeProfileManager:
     """
@@ -19,7 +21,7 @@ class VscodeProfileManager:
         self.functions = Functions(_LOG_FILE)
         self.extensionsPath = ''
         self.json_data = None
-        self.arrayOfMenu = ['Disable All','Enable All']
+        self.arrayOfMenu = ['Install', 'Uninstall', 'Disable All','Enable All']
         self.arrayPathExtensions = []
         self.arrayPathWithoutIgnoredExtensions = []
         self.run()
@@ -38,7 +40,7 @@ class VscodeProfileManager:
                 print('Done. Please Reload Code')
                 input("PRESS ENTER TO EXIT!")
         except Exception as e:
-            self.set_log('VSCODE PROFILER', str(e.args), True)
+            self.functions.set_log('VSCODE PROFILER', str(e.args), True)
 
     def set_default_values(self):
         # JSON
@@ -55,9 +57,10 @@ class VscodeProfileManager:
 
         self.extensionsPath = self.extensionsPath if self.extensionsPath.endswith('/') else self.extensionsPath + '/'
         if self.functions.checkDirectoryExist(self.extensionsPath) == False:
-            raise Exception('Invalid extensions path')
+            raise Exception('\nInvalid extensions path: ' + self.extensionsPath)
 
-        self.arrayPathExtensions = self.functions.exec_command_get_output("ls " + self.extensionsPath)
+        command = "ls " if self.functions.is_system_operating(0) == True else "dir " if self.functions.is_system_operating(2) == True else ""
+        self.arrayPathExtensions = self.functions.exec_command_get_output(command + self.extensionsPath)
         self.arrayPathExtensions = self.arrayPathExtensions.split("\n")
         if len(self.arrayPathExtensions) == 0:
             raise Exception('No extensions instaled')
@@ -70,7 +73,8 @@ class VscodeProfileManager:
             print("No profiles to manage")
         else:
             for key, value in data.items():
-                self.arrayOfMenu.append(key)
+                if _COMMENT_JSON_KEY not in key:
+                    self.arrayOfMenu.append(key)
 
             for index, value in enumerate(self.arrayOfMenu):
                 print(str(index) + " - " + value)
@@ -142,9 +146,7 @@ class VscodeProfileManager:
             if len(value) > 0:
                 for extension in value:
                     self.enable_extension(extension)
-        
-        
-
+    
     def disable_all(self):
         data = self.jsonData[_PROFILES_KEY]
         for key, value in data.items():

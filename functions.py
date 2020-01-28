@@ -20,7 +20,7 @@ class Functions:
         if self.is_system_operating(0) == True:
             self.homePath = os.path.expanduser("~")
         elif self.is_system_operating(2) == True:
-            self.homePath = "c:\\"
+            self.homePath = os.path.expanduser("~")
 
     def get_home_path(self) -> str:
         return self.homePath
@@ -123,6 +123,21 @@ class Functions:
         elif type == 2: # Windows...
             self.is_Platform = True if platform == 'win32' or platform == 'win64' else False
         return self.is_Platform
+
+    def write_read_file(self, nameFile: str, data, isWrite: bool):
+        if len(nameFile) > 0:
+            _type = "a" if isWrite == True else "r"
+            _content = None
+            _file = open(nameFile, _type)
+
+            if isWrite == True:
+                _file.write(data)
+                
+            _content = _file.read()
+            f.close()
+            return _content
+
+
     
 
     def set_log(self, _type, _error_log, print_error = False):
@@ -136,9 +151,9 @@ class Functions:
             print_error {bool} -- [description] (default: {False})
         """
         _type = _type + " " + str(datetime.datetime.now())
-        localization_log_file = self.homePath + "/" + self.logFile + ".log"
+        _log_file = self.logFile + ".log"
         _msg = _type + ": " + _error_log
-        command = "echo \"" + _msg + "\" | tee -a " + localization_log_file + " > /dev/null"
+        self.write_read_file(_log_file, _msg, True)
 
         if print_error == True:
             print(_msg)
