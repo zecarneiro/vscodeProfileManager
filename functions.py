@@ -22,6 +22,17 @@ class Functions:
         elif self.is_system_operating(2) == True:
             self.homePath = os.path.expanduser("~")
 
+    def format_directory_name_file(self, directoryNameFile: str):
+        """Format full path for directory or name file if contains spaces
+        
+        Arguments:
+            directoryNameFile {str} -- full path for directory or name file
+        
+        Returns:
+            [str] -- full path for directory or name file formated
+        """
+        return "\"" + directoryNameFile + "\"" if " " in directoryNameFile else directoryNameFile
+
     def get_home_path(self) -> str:
         return self.homePath
 
@@ -44,9 +55,8 @@ class Functions:
         """
         process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, error) = process.communicate()
-        return output.decode("utf-8").strip("\n")
+        return output.decode("utf-8").strip("\n\r")
     
-
     def checkFileExist(self, file):
         """Check if files exists
         
@@ -57,10 +67,10 @@ class Functions:
             bool -- True if exist
         """
         if isinstance(file, str):
+            file = self.format_directory_name_file(file)
             return os.path.isfile(file)
         else:
             return False
-    
     
     def checkDirectoryExist(self, directory):
         """Check if directories exists
@@ -71,20 +81,24 @@ class Functions:
         Returns:
             bool -- True if exist
         """
-        return os.path.isdir(directory)
-
+        if isinstance(directory, str):
+            directory = self.format_directory_name_file(directory)
+            return os.path.isdir(directory)
+        else:
+            return False
     
-    def rename_file_dir_name(self, oldName, newName):
+    def rename_file_dir_name(self, oldName: str, newName: str):
         """Rename file or directory
         
         Arguments:
             oldName {str} -- Old name of file/directory
             newName {str} -- New name of file/directory
         """
+        oldName = self.format_directory_name_file(oldName)
+        newName = self.format_directory_name_file(newName)
         os.rename(oldName, newName)
-
     
-    def read_json_file(self, json_file):
+    def read_json_file(self, json_file: str):
         """Read JSON File
         
         Arguments:
@@ -95,6 +109,7 @@ class Functions:
         """  
         json_data = {}
         try:
+            json_file = self.format_directory_name_file(json_file)
             stream = open(json_file, 'r')
             json_data = json.load(stream)
             stream.close()
@@ -103,7 +118,6 @@ class Functions:
             self.set_log('READ JSON', str(e.args))
             json_data = {}
         return json_data
-
     
     def is_system_operating(self, type):
         """Check SO by type
@@ -136,6 +150,7 @@ class Functions:
         Returns:
             [type] -- [description]
         """
+        nameFile = self.format_directory_name_file(nameFile)
         if len(nameFile) > 0:
             _type = ""
             if isWrite == True:
@@ -172,7 +187,6 @@ class Functions:
             print(_msg)
         self.exec_command(command)
     
-
     def print_json_data(self, json_data):
         """Print Json Data
         
@@ -180,7 +194,6 @@ class Functions:
             json_data {object} -- [description]
         """
         print(json.dumps(json_data, indent=4, sort_keys=True))
-
     
     def checkKey(self, object, key):
         """Check if key exist on object
@@ -196,7 +209,6 @@ class Functions:
             return True
         else: 
             return False
-
     
     def get_input_keyboard(self, message, typeInput: Generic[T]) -> T:
         """Read data from keyboard

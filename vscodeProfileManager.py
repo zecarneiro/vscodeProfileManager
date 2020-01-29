@@ -58,20 +58,20 @@ class VscodeProfileManager:
         # Get All Extensions
         self.arrayExtensions = self.jsonData[_EXTENSIONS_KEY] if self.functions.checkKey(self.jsonData, _EXTENSIONS_KEY) else None
         
-        # Get Extension path
-        self.extensionsPath = self.jsonData[_EXTENSION_PATH_KEY] if self.functions.checkKey(self.jsonData, _EXTENSION_PATH_KEY) else None
-        if self.functions.is_system_operating(0) == True:
-            self.extensionsPath = self.functions.get_home_path() + "/.vscode/extensions" if self.extensionsPath == None else self.extensionsPath
-            self.extensionsPath = self.extensionsPath if self.extensionsPath.endswith('/') else self.extensionsPath + '/'
-        elif self.functions.is_system_operating(2) == True:
-            self.extensionsPath = self.functions.get_home_path() + "\\.vscode\extensions" if self.extensionsPath == None else self.extensionsPath
-            self.extensionsPath = self.extensionsPath if self.extensionsPath.endswith('\\') else self.extensionsPath + '\\'
+        # Get Extension path default linux
+        self.extensionsPath = self.jsonData[_EXTENSION_PATH_KEY] if self.functions.checkKey(self.jsonData, _EXTENSION_PATH_KEY) else ''
+        self.extensionsPath = self.functions.get_home_path() + "/.vscode/extensions" if self.extensionsPath == '' else self.extensionsPath
+        self.extensionsPath = self.extensionsPath if self.extensionsPath.endswith('/') else self.extensionsPath + '/'
+
+        # If windows
+        if self.functions.is_system_operating(2) == True:
+            self.extensionsPath = self.extensionsPath.replace('/', '\\')
         
-        if self.functions.checkDirectoryExist("'" + self.extensionsPath + "'") == False:
+        if self.functions.checkDirectoryExist(self.extensionsPath) == False:
             raise Exception('\nInvalid extensions path: ' + self.extensionsPath)
 
-        command = "ls " if self.functions.is_system_operating(0) == True else "dir " if self.functions.is_system_operating(2) == True else ""
-        self.arrayPathExtensions = self.functions.exec_command_get_output(command + "'" + self.extensionsPath + "'")
+        command = "ls " if self.functions.is_system_operating(0) == True else "dir /B " if self.functions.is_system_operating(2) == True else ""
+        self.arrayPathExtensions = self.functions.exec_command_get_output(command + "\"" + self.extensionsPath + "\"")
         self.arrayPathExtensions = self.arrayPathExtensions.split("\n")
         if len(self.arrayPathExtensions) == 0:
             raise Exception('No extensions instaled')
@@ -102,7 +102,6 @@ class VscodeProfileManager:
 
                 if selected < 0 or selected > len(self.arrayOfMenu):
                     print('Please enter only profile inputs!!!')
-            
         return selected
 
     def get_directory_name_extension(self, extension):
@@ -110,21 +109,27 @@ class VscodeProfileManager:
         _name = ""
 
         if self.functions.is_system_operating(0) == True:
-            _command += "ls '" + self.extensionsPath + "' | grep -wi {0}*"
-        elif self.functions.is_system_operating(0) == True:
-            _command += "dir /B '" + self.extensionsPath + "' | findstr {0}*"
+            _command += "ls \"" + self.extensionsPath + "\" | grep -wi {0}*"
+        elif self.functions.is_system_operating(2) == True:
+            _command += "dir /B \"" + self.extensionsPath + "\" | findstr {0}*"
 
         _command = _command.replace("{0}", extension)
         _name = self.functions.exec_command_get_output(_command)
+        if len(_name) == 0:
+            _command = _command.replace("{0}", extension.lower())
+            _name = self.functions.exec_command_get_output(_command)
         _name = _name.split("\n")
 
-        if len(_name) > 1 or len(_name) == 0:
+        if len(_name) > 1:
             return ''
 
         _name = _name[0].replace('@', '-')
-        _dirName = "'" + self.extensionsPath + "{0}'"
+        if len(_name) == 0:
+            return ''
+            
+        _dirName = self.extensionsPath + "{0}"
         if self.functions.checkDirectoryExist(_dirName.replace("{0}", _name)) == True:
-            return dirName.replace("{0}", _name)
+            return _dirName.replace("{0}", _name)
         elif self.functions.checkDirectoryExist(_dirName.replace("{0}", _name.lower())) == True:
             return _dirName.replace("{0}", _name.lower())
         else:
@@ -132,19 +137,15 @@ class VscodeProfileManager:
 
     def enable_disable_extension(self, extension, isEnable = True):
         extensionDirName = self.get_directory_name_extension(extension)
+        print(extensionDirName)
 
         # No exist extension directory
         if len(extensionDirName) <= 0:
             return False
 
-        filePackage = extensionDirName + "{0}" + _FILE_PACKAGE_JSON
-        if self.functions.is_system_operating(0) == True:
-            filePackage = filePackage.replace("{0}", "/")
-        elif self.functions.is_system_operating(2) == True:
-            filePackage = filePackage.replace("{0}", "\\")
-
-        
-
+        filePackage = extensionDirName + "/" + _FILE_PACKAGE_JSON
+        if self.functions.is_system_operating(2) == True:
+            filePackage = filePackage.replace('/', '\\')
         _fileToCheck = (filePackage + _PACKAGE_JSON_PREFIX) if isEnable == True else (filePackage)
 
         # No exist package json
