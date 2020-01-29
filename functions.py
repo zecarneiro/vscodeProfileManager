@@ -124,21 +124,34 @@ class Functions:
             self.is_Platform = True if platform == 'win32' or platform == 'win64' else False
         return self.is_Platform
 
-    def write_read_file(self, nameFile: str, data, isWrite: bool):
+    def write_read_file(self, nameFile: str, data, isWrite: bool, append = True):
+        """Read and write from/to file
+        
+        Arguments:
+            nameFile {str} -- name of file
+            data {any} -- data to write to file
+            isWrite {bool} -- if true is Write
+            append {bool} -- if true is write to file on insert on end of file
+        
+        Returns:
+            [type] -- [description]
+        """
         if len(nameFile) > 0:
-            _type = "a" if isWrite == True else "r"
+            _type = ""
+            if isWrite == True:
+                _type = "a" if append == True else "w"
+            else:
+                _type = "r"
+                
             _content = None
             _file = open(nameFile, _type)
 
             if isWrite == True:
                 _file.write(data)
-                
-            _content = _file.read()
-            f.close()
+            else:
+                _content = _file.read()
+            _file.close()
             return _content
-
-
-    
 
     def set_log(self, _type, _error_log, print_error = False):
         """Set Log Error
@@ -152,7 +165,7 @@ class Functions:
         """
         _type = _type + " " + str(datetime.datetime.now())
         _log_file = self.logFile + ".log"
-        _msg = _type + ": " + _error_log
+        _msg = "\n" + _type + ": " + _error_log
         self.write_read_file(_log_file, _msg, True)
 
         if print_error == True:
