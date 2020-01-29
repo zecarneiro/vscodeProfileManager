@@ -126,7 +126,7 @@ class VscodeProfileManager:
         _name = _name[0].replace('@', '-')
         if len(_name) == 0:
             return ''
-            
+
         _dirName = self.extensionsPath + "{0}"
         if self.functions.checkDirectoryExist(_dirName.replace("{0}", _name)) == True:
             return _dirName.replace("{0}", _name)
@@ -137,7 +137,6 @@ class VscodeProfileManager:
 
     def enable_disable_extension(self, extension, isEnable = True):
         extensionDirName = self.get_directory_name_extension(extension)
-        print(extensionDirName)
 
         # No exist extension directory
         if len(extensionDirName) <= 0:
