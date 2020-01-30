@@ -13,10 +13,9 @@ _FILE_ACTIVE_PROFILE = "active_profile"
 _EXTENSIONS_KEY = "all_extensions"
 
 class VscodeProfileManager:
-    """
-        Init
-    """
     def __init__(self):
+        """Init
+        """
         # Init functions class
         self.functions = Functions(_LOG_FILE)
         self.extensionsPath = ''
@@ -44,12 +43,12 @@ class VscodeProfileManager:
                     print('Init operations for: ' + self.arrayOfMenu[selectedMenu] + ' profile...')
                     self.execute_operations(selectedMenu)
                     print('Done. Please Reload Code')
-                    input("PRESS ENTER TO CONTINUE!")
                 else:
                     break
                 print("\n\n\n##############")
         except Exception as e:
             self.functions.set_log('VSCODE PROFILER', str(e.args), True)
+            input("PRESS ENTER TO EXIT")
 
     def set_default_values(self):
         # JSON
@@ -107,16 +106,17 @@ class VscodeProfileManager:
     def get_directory_name_extension(self, extension):
         _command = ""
         _name = ""
+        _extensionLowerCase = extension.lower()
 
         if self.functions.is_system_operating(0) == True:
             _command += "ls \"" + self.extensionsPath + "\" | grep -wi {0}*"
         elif self.functions.is_system_operating(2) == True:
             _command += "dir /B \"" + self.extensionsPath + "\" | findstr {0}*"
 
-        _command = _command.replace("{0}", extension)
+        _command = _command.replace("{0}", _extensionLowerCase)
         _name = self.functions.exec_command_get_output(_command)
         if len(_name) == 0:
-            _command = _command.replace("{0}", extension.lower())
+            _command = _command.replace("{0}", extension)
             _name = self.functions.exec_command_get_output(_command)
         _name = _name.split("\n")
 
