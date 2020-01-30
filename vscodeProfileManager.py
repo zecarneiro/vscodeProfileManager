@@ -172,7 +172,9 @@ class VscodeProfileManager:
             if len(data) > 0:
                 for extension in data:
                     self.enable_disable_extension(extension)
-        self.save_info_profile(key)
+
+        if key > 1:
+            self.save_info_profile(key)
 
     def install_uninstall_extensions(self, isInstall = True):
         codeReplace = '{0}'
