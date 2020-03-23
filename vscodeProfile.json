@@ -16,7 +16,7 @@
 		"Git": ["mhutchie.git-graph", "eamodio.gitlens"],
 		"NPM": ["christian-kohler.npm-intellisense"],
 		"Python": ["njpwerner.autodocstring", "ms-python.python", "magicstack.MagicPython"],
-		"C_Cpp": ["ms-vscode.cpptools", "danielpinto8zz6.c-cpp-compile-run"],
+		"C_Cpp": ["ms-vscode.cpptools"],
 		"PHP": ["bmewburn.vscode-intelephense-client"],
 		"Typescript": ["steoates.autoimport", "ms-vscode.vscode-typescript-tslint-plugin"],
 		"Javascript": ["xabikos.JavaScriptSnippets"],
