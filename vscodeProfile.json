@@ -16,7 +16,14 @@
 		"Git": ["mhutchie.git-graph", "eamodio.gitlens"],
 		"NPM": ["christian-kohler.npm-intellisense"],
 		"Python": ["njpwerner.autodocstring", "ms-python.python", "magicstack.MagicPython"],
-		"C_Cpp": ["ms-vscode.cpptools"],
+		"C_Cpp": [
+			"ms-vscode.cpptools",
+			"Hyeon.c-math-viewer",
+			"amiralizadeh9480.cpp-helper",
+			"davidbroetje.algorithm-mnemonics-vscode",
+			"jeff-hykin.better-cpp-syntax",
+			"danielpinto8zz6.c-cpp-compile-run"
+		],
 		"PHP": ["bmewburn.vscode-intelephense-client"],
 		"Typescript": ["steoates.autoimport", "ms-vscode.vscode-typescript-tslint-plugin"],
 		"Javascript": ["xabikos.JavaScriptSnippets"],
