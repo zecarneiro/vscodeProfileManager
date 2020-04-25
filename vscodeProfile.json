@@ -11,7 +11,7 @@
 			"christian-kohler.path-intellisense",
 			"VisualStudioExptTeam.vscodeintellicode"
 		],
-		"CMAKE": ["twxs.cmake"],
+		"CMAKE": ["twxs.cmake", "ms-vscode.cmake-tools"],
 		"Git": ["mhutchie.git-graph", "eamodio.gitlens"],
 		"NPM": ["christian-kohler.npm-intellisense"],
 		"Python": ["njpwerner.autodocstring", "ms-python.python", "magicstack.MagicPython"],
@@ -21,7 +21,8 @@
 			"amiralizadeh9480.cpp-helper",
 			"davidbroetje.algorithm-mnemonics-vscode",
 			"jeff-hykin.better-cpp-syntax",
-			"danielpinto8zz6.c-cpp-compile-run"
+			"danielpinto8zz6.c-cpp-compile-run",
+			"austin.code-gnu-global"
 		],
 		"PHP": ["bmewburn.vscode-intelephense-client"],
 		"Typescript": ["steoates.autoimport", "ms-vscode.vscode-typescript-tslint-plugin"],
@@ -33,10 +34,12 @@
 			"formulahendry.auto-close-tag",
 			"abusaidm.html-snippets"
 		],
+		"XML": ["dotjoshjohnson.xml"],
 		"CSS_SASS_SCSS_LESS": ["sporiley.css-auto-prefix", "michelemelluso.code-beautifier"],
 		"Angular": ["Angular.ng-template", "johnpapa.Angular2"],
 		"React": ["dsznajder.es7-react-js-snippets"],
-		"Vue": ["octref.vetur"]
+		"Vue": ["octref.vetur"],
+		"Java": ["vscjava.vscode-java-pack"]
 	},
 	"profiles": {
 		"Angular": ["Angular.ng-template", "johnpapa.Angular2"],
