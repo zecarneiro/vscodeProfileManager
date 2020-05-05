@@ -9,7 +9,8 @@
 			"vscode-icons-team.vscode-icons",
 			"CoenraadS.bracket-pair-colorizer",
 			"christian-kohler.path-intellisense",
-			"VisualStudioExptTeam.vscodeintellicode"
+			"VisualStudioExptTeam.vscodeintellicode",
+			"alefragnani.project-manager"
 		],
 		"CMAKE": ["twxs.cmake", "ms-vscode.cmake-tools"],
 		"Git": ["mhutchie.git-graph", "eamodio.gitlens"],
