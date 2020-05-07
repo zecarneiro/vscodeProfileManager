@@ -10,7 +10,8 @@
 			"CoenraadS.bracket-pair-colorizer",
 			"christian-kohler.path-intellisense",
 			"VisualStudioExptTeam.vscodeintellicode",
-			"alefragnani.project-manager"
+			"alefragnani.project-manager",
+			"ms-vscode-remote.remote-wsl"
 		],
 		"CMAKE": ["twxs.cmake", "ms-vscode.cmake-tools"],
 		"Git": ["mhutchie.git-graph", "eamodio.gitlens"],
@@ -26,7 +27,11 @@
 			"austin.code-gnu-global"
 		],
 		"PHP": ["bmewburn.vscode-intelephense-client"],
-		"Typescript": ["steoates.autoimport", "ms-vscode.vscode-typescript-tslint-plugin"],
+		"Typescript": [
+			"steoates.autoimport",
+			"ms-vscode.vscode-typescript-tslint-plugin",
+			"kisstkondoros.typelens"
+		],
 		"Javascript": ["xabikos.JavaScriptSnippets"],
 		"Shell": ["remisa.shellman", "ms-vscode.PowerShell"],
 		"HTML": [
