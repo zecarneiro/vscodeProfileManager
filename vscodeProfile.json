@@ -11,7 +11,8 @@
 			"christian-kohler.path-intellisense",
 			"VisualStudioExptTeam.vscodeintellicode",
 			"alefragnani.project-manager",
-			"ms-vscode-remote.remote-wsl"
+			"ms-vscode-remote.remote-wsl",
+			"ferrierbenjamin.fold-unfold-all-icone"
 		],
 		"CMAKE": ["twxs.cmake", "ms-vscode.cmake-tools"],
 		"Git": ["mhutchie.git-graph", "eamodio.gitlens"],
