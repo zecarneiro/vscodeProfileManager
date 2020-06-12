@@ -5,12 +5,12 @@ import os
 # App Directory
 _EXTENSION_PATH_KEY = "extensionPath"
 _PROFILES_KEY = "profiles"
+_NO_PROFILES_KEY = "noProfiles"
 _LOG_FILE = "vscodeProfileManager"
 _JSON_FILE = "vscodeProfile.json"
 _PACKAGE_JSON_PREFIX = "VSCODE_PROFILE"
 _FILE_PACKAGE_JSON = "package.json"
 _FILE_ACTIVE_PROFILE = "active_profile"
-_EXTENSIONS_KEY = "all_extensions"
 
 class VscodeProfileManager:
     def __init__(self):
@@ -21,14 +21,15 @@ class VscodeProfileManager:
         self.extensionsPath = ''
         self.json_data = None
         self.arrayOfMenu = ['Install', 'Uninstall', 'Disable All','Enable All']
-        self.arrayExtensions = None
         self.arrayPathExtensions = []
         self.run()
 
     def run(self):
         isSetDefault = False
+        isExit = False
         try:
             while(True):
+                selectedMenu = -1
                 if self.functions.checkFileExist(_FILE_ACTIVE_PROFILE) == True:
                     print(self.functions.write_read_file(_FILE_ACTIVE_PROFILE, None, False))
                     print("---")
@@ -36,12 +37,40 @@ class VscodeProfileManager:
                 if isSetDefault == False:
                     self.set_default_values()
                     
-                selectedMenu = self.create_menu(isSetDefault)
+                self.create_menu(isSetDefault)
                 isSetDefault = True if isSetDefault == False else isSetDefault
 
-                if selectedMenu < len(self.arrayOfMenu):
-                    print('Init operations for: ' + self.arrayOfMenu[selectedMenu] + ' profile...')
-                    self.execute_operations(selectedMenu)
+                isValidSelected = False
+                while isValidSelected == False:
+                    selectedMenu = self.functions.get_input_keyboard("Enter your's profiles(Seperated by empty space): ", int, True)
+
+                    if len(selectedMenu) > 1 and (0 in selectedMenu or 1 in selectedMenu or len(self.arrayOfMenu) in selectedMenu):
+                        print('Invalid inserted. Inserted only one of disable/enable all, Install/Uninstall and Exit')
+
+                    # Exit
+                    elif len(self.arrayOfMenu) in selectedMenu:
+                        isExit = True
+                        break
+
+                    # Validate others input's
+                    else:
+                        isValidSelected = True
+                        for selected in selectedMenu:
+                            if selected < 0 or selected > len(self.arrayOfMenu):
+                                print('Please enter only profile inputs!!!')
+                                isValidSelected = False
+                                break
+
+                            if selected == len(self.arrayOfMenu):
+                                isExit = True
+                                break
+                
+                if isExit == False and isValidSelected:
+                    if len(selectedMenu) > 1: self.disable_all()
+                    for selected in selectedMenu:
+                        print('Init operations for: ' + self.arrayOfMenu[selected])
+                        self.execute_operations(selected)
+
                     print('Done. Please Reload Code')
                 else:
                     break
@@ -54,9 +83,6 @@ class VscodeProfileManager:
         # JSON
         self.jsonData = self.functions.read_json_file(_JSON_FILE)
 
-        # Get All Extensions
-        self.arrayExtensions = self.jsonData[_EXTENSIONS_KEY] if self.functions.checkKey(self.jsonData, _EXTENSIONS_KEY) else None
-        
         # Get Extension path default linux
         self.extensionsPath = self.jsonData[_EXTENSION_PATH_KEY] if self.functions.checkKey(self.jsonData, _EXTENSION_PATH_KEY) else ''
         self.extensionsPath = self.functions.get_home_path() + "/.vscode/extensions" if self.extensionsPath == '' else self.extensionsPath
@@ -77,7 +103,6 @@ class VscodeProfileManager:
 
     def create_menu(self, isSetDefault: bool):
         data = self.jsonData[_PROFILES_KEY] if self.functions.checkKey(self.jsonData, _PROFILES_KEY) else None
-        selected = -1
 
         if data is None:
             print("No profiles to manage")
@@ -95,13 +120,6 @@ class VscodeProfileManager:
             
             print("----")
             print(str(len(self.arrayOfMenu)) + " - Exit")
-            
-            while selected < 0 or selected > len(self.arrayOfMenu):
-                selected = self.functions.get_input_keyboard('Enter your profile: ', int)
-
-                if selected < 0 or selected > len(self.arrayOfMenu):
-                    print('Please enter only profile inputs!!!')
-        return selected
 
     def get_directory_name_extension(self, extension):
         _command = ""
@@ -162,7 +180,7 @@ class VscodeProfileManager:
             self.install_uninstall_extensions()
         elif key == 1:
             self.install_uninstall_extensions(False)
-        elif key == 2 or key > 3:
+        elif key == 2:
             self.disable_all()
         elif key == 3:
             self.enable_all()
@@ -180,7 +198,11 @@ class VscodeProfileManager:
         codeReplace = '{0}'
         commandInstall = "code --install-extension {0}"
         commandUninstall = "code --uninstall-extension {0}"
-        for key, value in self.arrayExtensions.items():
+        # Get All Extensions
+        allExtensions = self.jsonData[_NO_PROFILES_KEY]
+        allExtensions.update(self.jsonData[_PROFILES_KEY])
+        
+        for key, value in allExtensions.items():
             if isinstance(value, list):
                 print("\nInstall Extensions for: " + key)
                 for index, value in enumerate(value):

@@ -1,6 +1,6 @@
 {
-	"all_extensions": {
-		"All_Profile": [
+	"noProfiles": {
+		"data": [
 			"gruntfuggly.todo-tree",
 			"formulahendry.terminal",
 			"natqe.reload",
@@ -14,11 +14,16 @@
 			"ms-vscode-remote.remote-wsl",
 			"ferrierbenjamin.fold-unfold-all-icone"
 		],
+		"Git": ["mhutchie.git-graph", "eamodio.gitlens"]
+	},
+	"profiles": {
+		"Angular": ["Angular.ng-template", "johnpapa.Angular2"],
+		"React": ["dsznajder.es7-react-js-snippets"],
+		"Vue": ["octref.vetur"],
 		"CMAKE": ["twxs.cmake", "ms-vscode.cmake-tools"],
-		"Git": ["mhutchie.git-graph", "eamodio.gitlens"],
 		"NPM": ["christian-kohler.npm-intellisense"],
 		"Python": ["njpwerner.autodocstring", "ms-python.python", "magicstack.MagicPython"],
-		"C_Cpp": [
+		"C/C++": [
 			"ms-vscode.cpptools",
 			"Hyeon.c-math-viewer",
 			"amiralizadeh9480.cpp-helper",
@@ -43,14 +48,6 @@
 		],
 		"XML": ["dotjoshjohnson.xml"],
 		"CSS_SASS_SCSS_LESS": ["sporiley.css-auto-prefix", "michelemelluso.code-beautifier"],
-		"Angular": ["Angular.ng-template", "johnpapa.Angular2"],
-		"React": ["dsznajder.es7-react-js-snippets"],
-		"Vue": ["octref.vetur"],
 		"Java": ["vscjava.vscode-java-pack"]
-	},
-	"profiles": {
-		"Angular": ["Angular.ng-template", "johnpapa.Angular2"],
-		"React": ["dsznajder.es7-react-js-snippets"],
-		"Vue": ["octref.vetur"]
 	}
 }

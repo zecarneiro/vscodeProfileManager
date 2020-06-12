@@ -210,7 +210,7 @@ class Functions:
         else: 
             return False
     
-    def get_input_keyboard(self, message, typeInput: Generic[T]) -> T:
+    def get_input_keyboard(self, message, typeInput: Generic[T], isMultiple: False) -> T:
         """Read data from keyboard
         
         Arguments:
@@ -222,7 +222,13 @@ class Functions:
         """
         while True:
             try:
-                x = typeInput(input(message))
+                if (isMultiple):
+                    x = None
+                    x = list(map(typeInput, input(message).split()))
+                else:
+                    x = input(message)
+                    if typeInput != str:
+                        x = typeInput(x)
                 return x
             except ValueError:
                 print("Oops!  That was no valid.  Try again...")
