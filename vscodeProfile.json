@@ -14,15 +14,29 @@
 			"ms-vscode-remote.remote-wsl",
 			"ferrierbenjamin.fold-unfold-all-icone"
 		],
-		"Git": ["mhutchie.git-graph", "eamodio.gitlens"]
+		"Git": [
+			"mhutchie.git-graph",
+			"eamodio.gitlens",
+			"ms-vscode.github-issues-prs"
+		]
 	},
 	"profiles": {
-		"Angular": ["Angular.ng-template", "johnpapa.Angular2"],
+		"Angular": [
+			"Angular.ng-template",
+			"johnpapa.Angular2"
+		],
 		"React": ["dsznajder.es7-react-js-snippets"],
 		"Vue": ["octref.vetur"],
-		"CMAKE": ["twxs.cmake", "ms-vscode.cmake-tools"],
+		"CMAKE": [
+			"twxs.cmake",
+			"ms-vscode.cmake-tools"
+		],
 		"NPM": ["christian-kohler.npm-intellisense"],
-		"Python": ["njpwerner.autodocstring", "ms-python.python", "magicstack.MagicPython"],
+		"Python": [
+			"njpwerner.autodocstring",
+			"ms-python.python",
+			"magicstack.MagicPython"
+		],
 		"C/C++": [
 			"ms-vscode.cpptools",
 			"Hyeon.c-math-viewer",
@@ -33,21 +47,35 @@
 			"austin.code-gnu-global"
 		],
 		"PHP": ["bmewburn.vscode-intelephense-client"],
-		"Typescript": [
+		"Typescript/Javascript": [
 			"steoates.autoimport",
 			"ms-vscode.vscode-typescript-tslint-plugin",
-			"kisstkondoros.typelens"
+			"kisstkondoros.typelens",
+			"xabikos.JavaScriptSnippets"
 		],
-		"Javascript": ["xabikos.JavaScriptSnippets"],
-		"Shell": ["remisa.shellman", "ms-vscode.PowerShell"],
-		"HTML": [
+		"Shell": [
+			"remisa.shellman",
+			"ms-vscode.PowerShell"
+		],
+		"XML/HTML": [
+			"dotjoshjohnson.xml",
 			"Zignd.html-css-class-completion",
 			"krizzdewizz.tag-rename",
 			"formulahendry.auto-close-tag",
-			"abusaidm.html-snippets"
+			"abusaidm.html-snippets",
+			"redhat.vscode-xml"
 		],
-		"XML": ["dotjoshjohnson.xml"],
-		"CSS_SASS_SCSS_LESS": ["sporiley.css-auto-prefix", "michelemelluso.code-beautifier"],
-		"Java": ["vscjava.vscode-java-pack"]
+		"CSS/SASS/SCSS/LESS": [
+			"sporiley.css-auto-prefix",
+			"michelemelluso.code-beautifier"
+		],
+		"Java": [
+			"vscjava.vscode-java-pack",
+			"vscjava.vscode-java-debug",
+			"vscjava.vscode-java-dependency",
+			"vscjava.vscode-java-test",
+			"redhat.java",
+			"vscjava.vscode-maven"
+		]
 	}
 }

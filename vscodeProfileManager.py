@@ -68,7 +68,7 @@ class VscodeProfileManager:
                 if isExit == False and isValidSelected:
                     if len(selectedMenu) > 1: self.disable_all()
                     for selected in selectedMenu:
-                        print('Init operations for: ' + self.arrayOfMenu[selected])
+                        print('\nInit operations for: ' + self.arrayOfMenu[selected])
                         self.execute_operations(selected)
 
                     print('Done. Please Reload Code')
@@ -138,6 +138,8 @@ class VscodeProfileManager:
             _name = self.functions.exec_command_get_output(_command)
         _name = _name.split("\n")
 
+        print(_name)
+
         if len(_name) > 1:
             return ''
 
@@ -170,8 +172,10 @@ class VscodeProfileManager:
             return False
 
         if isEnable == True:
+            print("Enable: " + extension)
             self.functions.rename_file_dir_name(filePackage + _PACKAGE_JSON_PREFIX, filePackage)
         else:
+            print("Disable: " + extension)
             self.functions.rename_file_dir_name(filePackage, filePackage + _PACKAGE_JSON_PREFIX)
         return True
 
