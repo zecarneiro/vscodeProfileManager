@@ -1,25 +1,22 @@
 {
-	"noProfiles": {
-		"data": [
-			"gruntfuggly.todo-tree",
-			"formulahendry.terminal",
-			"natqe.reload",
-			"ms-azuretools.vscode-docker",
-			"jeremyljackson.vs-docblock",
-			"vscode-icons-team.vscode-icons",
-			"CoenraadS.bracket-pair-colorizer",
-			"christian-kohler.path-intellisense",
-			"VisualStudioExptTeam.vscodeintellicode",
-			"alefragnani.project-manager",
-			"ms-vscode-remote.remote-wsl",
-			"ferrierbenjamin.fold-unfold-all-icone"
-		],
-		"Git": [
-			"mhutchie.git-graph",
-			"eamodio.gitlens",
-			"ms-vscode.github-issues-prs"
-		]
-	},
+	"ignored": [
+		"gruntfuggly.todo-tree",
+		"formulahendry.terminal",
+		"natqe.reload",
+		"ms-azuretools.vscode-docker",
+		"jeremyljackson.vs-docblock",
+		"vscode-icons-team.vscode-icons",
+		"CoenraadS.bracket-pair-colorizer",
+		"christian-kohler.path-intellisense",
+		"VisualStudioExptTeam.vscodeintellicode",
+		"alefragnani.project-manager",
+		"ms-vscode-remote.remote-wsl",
+		"ferrierbenjamin.fold-unfold-all-icone",
+		"mhutchie.git-graph",
+		"eamodio.gitlens",
+		"ms-vscode.github-issues-prs",
+		"ms-vsliveshare.vsliveshare"
+	],
 	"profiles": {
 		"Angular": [
 			"Angular.ng-template",

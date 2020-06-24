@@ -19,6 +19,7 @@ class VscodeProfileManager:
         # Init functions class
         self.functions = Functions(_LOG_FILE)
         self.extensionsPath = ''
+        self.extensionsPathDisabled = ''
         self.json_data = None
         self.arrayOfMenu = ['Install', 'Uninstall', 'Disable All','Enable All']
         self.arrayPathExtensions = []
@@ -137,8 +138,6 @@ class VscodeProfileManager:
             _command = _command.replace("{0}", extension)
             _name = self.functions.exec_command_get_output(_command)
         _name = _name.split("\n")
-
-        print(_name)
 
         if len(_name) > 1:
             return ''
